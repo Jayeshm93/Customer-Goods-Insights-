@@ -12,10 +12,6 @@ in the APAC region*/
 SELECT DISTINCT(market) FROM dim_customer 
 WHERE customer ='Atliq Exclusive' AND 
 region = "APAC";
-SELECT distinct market
-FROM dim_customer 
-where region = "APAC" and customer="Atliq Exclusive"
-;
 
 /*
 2.What is the percentage of unique product increase in 2021 vs. 2020? 
