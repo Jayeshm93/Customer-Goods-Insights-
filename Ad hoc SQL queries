@@ -9,7 +9,7 @@ AS A DATA ANALYST MY TASK IS TO RESPOND TO 10 AD-HOC QUERIES ASSIGNED TO ME.
 1. List of markets in which customer "Atliq Exlcusive" operates business 
 in the APAC region*/
 
-SELECT DISTINCT (MARKET) FROM dim_customer 
+SELECT DISTINCT(market) FROM dim_customer 
 WHERE customer ='Atliq Exclusive' AND 
 region = "APAC";
 
