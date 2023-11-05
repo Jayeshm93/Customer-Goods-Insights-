@@ -22,12 +22,12 @@ unique_products_2021
 percentage_chg */
 
 WITH cte1 AS (SELECT 
-(SELECT COUNT (DISTINCT product_code) FROM fact_sales_monthly where fiscal_year='2020') AS unique_products_2020,
-(SELECT COUNT (DISTINCT product_code) FROM fact_sales_monthly where fiscal_year='2021') AS unique_products_2021) 
+(SELECT COUNT(DISTINCT product_code) FROM fact_sales_monthly where fiscal_year='2020') AS unique_products_2020,
+(SELECT COUNT(DISTINCT product_code) FROM fact_sales_monthly where fiscal_year='2021') AS unique_products_2021) 
 
 SELECT unique_products_2020,
        unique_products_2021,
-       ROUND (((unique_products_2021-unique_products_2020)/unique_products_2020)*100,1) AS pct_chg
+       ROUND(((unique_products_2021-unique_products_2020)/unique_products_2020)*100,1) AS pct_chg
 FROM cte1;
 
 
@@ -38,7 +38,7 @@ sort them in descending order of product counts. The final output contains
 segment
 product_count */
 
-SELECT segment, COUNT ( DISTINCT product_code) AS product_count 
+SELECT segment, COUNT(DISTINCT product_code) AS product_count 
 FROM dim_product 
 GROUP BY segment
 ORDER BY product_count;
@@ -50,8 +50,22 @@ ORDER BY product_count;
 segment
 product_count_2020
 product_count_2021
-difference
-*/
+difference */
+
+WITH cte1 AS (SELECT p.segment,
+       COUNT(DISTINCT CASE WHEN fiscal_year='2020' THEN p.product_code END) AS unique_products_2020,
+       COUNT(DISTINCT CASE WHEN fiscal_year='2021' THEN p.product_code END) AS unique_products_2021
+FROM dim_product p
+LEFT JOIN fact_sales_monthly s 
+ON p.product_code=s.product_code 
+GROUP BY p.segment)
+
+SELECT segment,
+       unique_products_2020,
+       unique_products_2021,
+       (unique_products_2021-unique_products_2020) AS difference
+FROM cte1
+ORDER BY difference DESC;
 
 
 /*
@@ -59,8 +73,17 @@ difference
 The final output should contain these fields,
 product_code
 product
-manufacturing_cost
-*/
+manufacturing_cost */
+
+SELECT p.product_code,
+       p.product,
+       ROUND(m.manufacturing_cost,1)
+FROM dim_product p 
+JOIN fact_manufacturing_cost m
+ON p.product_code=m.product_code
+WHERE m.manufacturing_cost=(SELECT MAX (m.manufacturing_cost) FROM fact_manufacturing_cost)
+OR m.manufacturing_cost=(SELECT MIN (m.manufacturing_cost) FROM fact_manufacturing_cost)
+
 
 /*
 6. Generate a report which contains the top 5 customers 
@@ -69,8 +92,19 @@ for the fiscal year 2021 and in theIndian market.
 The final output contains these fields,
 customer_code
 customer
-average_discount_percentage
-*/
+average_discount_percentage */
+
+SELECT c.customer_code,
+       c.customer,
+       AVG(pi.pre_invoice_discount_pct) AS average_discount_pct
+FROM dim_customer c  
+JOIN fact_pre_invoice_deductions pi
+ON c.customer_code=pi.customer_code
+WHERE pi.fiscal_year='2021' AND c.market='india'
+GROUP BY c.customer_code,c.customer
+ORDER BY average_discount_pct desc
+LIMIT 5;
+
 
 /*
 7. Get the complete report of the Gross sales amount for the customer 
@@ -79,8 +113,20 @@ high-performing months and take strategic decisions.
 The final report contains these columns:
 Month
 Year
-Gross sales Amount
-*/
+Gross sales Amount */
+
+SELECT MONTHNAME(s.date) AS Month,
+       s.fiscal_year AS Year,
+       ROUND(SUM(s.sold_quantity*gp.gross_price)/1000000,2) 
+       AS Gross_Sales_Amount          -- Value in Million
+FROM dim_customer c 
+JOIN fact_sales_monthly s 
+ON c.customer_code=s.customer_code
+JOIN fact_gross_price gp
+ON gp.product_code=s.product_code
+WHERE c.customer='Atliq Exclusive'
+GROUP BY month,Year
+ORDER BY Year;
 
 /*8. In which quarter of 2020, got the maximum total_sold_quantity? The final
 output contains these fields sorted by the total_sold_quantity,
