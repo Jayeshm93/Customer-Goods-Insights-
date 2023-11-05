@@ -17,3 +17,39 @@ unique_products_2020
 unique_products_2021
 percentage_chg
 */
+
+/*
+3. Provide a report with all the unique product counts for each segment and
+sort them in descending order of product counts. The final output contains
+2 fields,
+segment
+product_count
+*/
+
+/*
+4. Follow-up: Which segment had the most increase in unique products in
+2021 vs 2020? The final output contains these fields,
+segment
+product_count_2020
+product_count_2021
+difference
+*/
+
+
+/*
+*/
+
+/*
+*/
+
+/*
+*/
+
+/*
+*/
+
+/*
+*/
+
+/*
+*/
