@@ -13,21 +13,36 @@ SELECT DISTINCT(market) FROM dim_customer
 WHERE customer ='Atliq Exclusive' AND 
 region = "APAC";
 
+
 /*
 2.What is the percentage of unique product increase in 2021 vs. 2020? 
 The final output contains these fields,
 unique_products_2020
 unique_products_2021
-percentage_chg
-*/
+percentage_chg */
+
+WITH cte1 AS (SELECT 
+(SELECT COUNT (DISTINCT product_code) FROM fact_sales_monthly where fiscal_year='2020') AS unique_products_2020,
+(SELECT COUNT (DISTINCT product_code) FROM fact_sales_monthly where fiscal_year='2021') AS unique_products_2021) 
+
+SELECT unique_products_2020,
+       unique_products_2021,
+       ROUND (((unique_products_2021-unique_products_2020)/unique_products_2020)*100,1) AS pct_chg
+FROM cte1;
+
 
 /*
 3. Provide a report with all the unique product counts for each segment and
 sort them in descending order of product counts. The final output contains
 2 fields,
 segment
-product_count
-*/
+product_count */
+
+SELECT segment, COUNT ( DISTINCT product_code) AS product_count 
+FROM dim_product 
+GROUP BY segment
+ORDER BY product_count;
+
 
 /*
 4. Follow-up: Which segment had the most increase in unique products in
