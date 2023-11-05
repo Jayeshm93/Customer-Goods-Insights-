@@ -5,4 +5,14 @@ ATLIQ HARDWARE'S MANAGEMENT WANTS TO GET SOME INSIGHTS IN THE SALES OF ITS PRODU
 AS A DATA ANALYST MY TASK IS TO RESPOND TO 10 AD-HOC QUERIES ASSIGNED TO ME. 
 */
 
--- 1. List of markets in which customer "Atliq Exlcusive" operates business in the APAC region
+/*
+1. List of markets in which customer "Atliq Exlcusive" operates business in the APAC region
+*/
+
+/*
+2.What is the percentage of unique product increase in 2021 vs. 2020? 
+The final output contains these fields,
+unique_products_2020
+unique_products_2021
+percentage_chg
+*/
