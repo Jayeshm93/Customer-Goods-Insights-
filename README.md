@@ -9,6 +9,11 @@
   - Direct
   - Distributor
 
+# Objectives
+
+  AtliQ Management note that they do not have sufficient insights
+to take quick and data-informed decisions.
+
 
   
 
