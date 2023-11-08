@@ -15,7 +15,7 @@
 to take quick and data-informed decisions.
 Plan to expand the data analytics team by adding junior data analysts.
 
-Link to [Ad hoc](https://github.com/Jayeshm93/Customer-Goods-Insights-/blob/d606e401e957d8bdd50d4d535a55bc8c75c5c521/Ad%20hoc%20SQL%20queries)
+Link to [Ad Hoc Sql Queries](https://github.com/Jayeshm93/Customer-Goods-Insights-/blob/d606e401e957d8bdd50d4d535a55bc8c75c5c521/Ad%20hoc%20SQL%20queries)
 
 Link to [Presentation ppt](https://github.com/Jayeshm93/Customer-Goods-Insights-/blob/d606e401e957d8bdd50d4d535a55bc8c75c5c521/Presentation.pptx)
 
